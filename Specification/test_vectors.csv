@@ -1,0 +1,6 @@
+test_id,requirement_id,category,description,precondition,scan,input_json,parameter_json,expected_output_json,expected_error,tolerance
+UT-FB-INIT-001,REQ-FB-INIT-001,initialization,Init sets safe state,power_on,0,"{}","{}","{""output"":0}",FB_ERROR_NONE,0
+UT-FB-NORMAL-001,REQ-FB-FUNC-001,formal,Typical valid input,initialized,1,"{""pv"":1000}","{""enable"":true}","{""output"":500}",FB_ERROR_NONE,0
+UT-FB-BOUNDARY-001,REQ-FB-RANGE-001,boundary,Minimum legal input,initialized,1,"{""pv"":-200}","{""enable"":true}","{""output"":0}",FB_ERROR_NONE,0
+UT-FB-BOUNDARY-002,REQ-FB-RANGE-001,boundary,Maximum legal input,initialized,1,"{""pv"":1750}","{""enable"":true}","{""output"":1000}",FB_ERROR_NONE,0
+UT-FB-OOR-001,REQ-FB-RANGE-002,out_of_range,Below minimum,initialized,1,"{""pv"":-201}","{""enable"":true}","{""output"":0}",FB_ERROR_INPUT_RANGE,0
