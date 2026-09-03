@@ -1,0 +1,63 @@
+schema_version: 1
+function_block:
+  name: FB_xxx
+  source: DUT/FB_xxx/FB_xxx.c
+  header: DUT/FB_xxx/FB_xxx.h
+  language: C11
+  compiler: gcc
+  target_mcu: LPC55S69
+  author: REPLACE_ME
+
+execution:
+  init_function: FB_xxx_Init
+  cyclic_function: FB_xxx_Execute
+  cycle_ms: 20
+  requires_init: true
+
+inputs:
+  - name: pv
+    c_type: int16_t
+    unit: 0.1_degC
+    valid_min: -200
+    valid_max: 1750
+    invalid_behavior: return_error
+
+outputs:
+  - name: output
+    c_type: int32_t
+    unit: count
+    valid_min: 0
+    valid_max: 1000
+    tolerance: 0
+
+parameters:
+  - name: enable
+    c_type: bool
+    default: false
+    valid_values: [false, true]
+    runtime_changeable: true
+
+states:
+  initial: STOP
+  allowed: [STOP, RUN, ERROR]
+
+errors:
+  - name: FB_ERROR_NONE
+    value: 0
+    meaning: no error
+  - name: FB_ERROR_INPUT_RANGE
+    value: 1
+    meaning: input outside legal range
+
+contracts:
+  null_pointer: return_error
+  invalid_enum: return_error
+  limit_low_greater_than_high: return_error
+  integer_overflow: saturate
+
+test_policy:
+  random_seed: 20260903
+  random_cases: 1000
+  statement_coverage_target_percent: 100
+  branch_coverage_target_percent: 90
+  write_result_comment_to_source: true
