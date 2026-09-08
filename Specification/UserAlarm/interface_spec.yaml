@@ -1,0 +1,63 @@
+schema_version: 1
+function_block:
+  name: UserAlarm
+  function: app_fb_user_alarm
+  source: DUT/L04_FB/UserAlarm/userAlarm.c
+  header: DUT/L04_FB/UserAlarm/userAlarm.h
+  tested_source_commit: b4ad09c824f238f6d97db51e01d4ed8c1ef28066
+  author: CH
+
+execution:
+  init_function: null
+  initialization:
+    alarmLatch: false
+    standbyReady: false
+    peakH: INT16_MIN
+    peakL: INT16_MAX
+  cyclic_call: app_fb_user_alarm
+  cycle_dependency: none
+
+inputs:
+  - {name: PV, type: int16_t, unit: application_defined}
+  - {name: SV, type: int16_t, unit: same_as_PV}
+  - {name: Mode, type: int16_t, valid_min: 0, valid_max: 8}
+  - {name: AlarmH, type: int16_t, constraint: not_defined_by_DUT}
+  - {name: AlarmL, type: int16_t, constraint: not_defined_by_DUT}
+  - {name: Clear, type: "int16_t *", bits: {0: reset_hold, 1: reset_peak}}
+  - {name: FunctionOption, type: uint8_t, bits: {0: standby, 1: invert, 2: hold, 3: peak}}
+
+outputs:
+  return_value: {type: uint16_t, observed_value: 1}
+  structure:
+    - {name: AlarmOutput, type: int16_t, valid_values: [0, 1]}
+    - {name: PeakH, type: int16_t}
+    - {name: PeakL, type: int16_t}
+
+alarm_modes:
+  0: disable
+  1: relative_high_low
+  2: relative_high
+  3: relative_low
+  4: absolute_high_low
+  5: absolute_high
+  6: absolute_low
+  7: hysteresis_high
+  8: hysteresis_low
+
+test_scope:
+  formal_and_normal: true
+  boundary: true
+  state_transition: true
+  option_combinations: true
+  clear_bit_lifecycle: true
+  multi_instance: true
+  deterministic_random_vectors: 5000
+  random_seed: 20260903
+  sanitizer_execution: [address, undefined_behavior]
+
+unresolved_contracts:
+  - legal PV/SV/AlarmH/AlarmL engineering ranges are not supplied
+  - no public Init or Reset function exists
+  - null pointers are not checked
+  - invalid Mode silently acts as disabled
+  - no error-code enum exists and return value is always 1
