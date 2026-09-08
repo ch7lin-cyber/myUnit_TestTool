@@ -1,3 +1,15 @@
+/* UNIT_TEST_RESULT_BEGIN
+ * Test item     : app_fb_user_alarm() functional/boundary/state/random tests
+ * Result        : FUNCTIONAL_PASS_WITH_FINDINGS
+ * Test author   : OpenAI Codex
+ * DUT author    : CH
+ * Tested at UTC : 2026-09-08T05:06:28Z
+ * Source commit : b4ad09c824f238f6d97db51e01d4ed8c1ef28066
+ * Checks        : 10027 (including 5000 random vectors, seed=20260903)
+ * Report        : TestResult/UserAlarm/UserAlarm_TestReport_20260908.md
+ * Note          : 7 findings remain; see report before formal release.
+ * UNIT_TEST_RESULT_END */
+
 
 /***************************************************************
 Description : 
