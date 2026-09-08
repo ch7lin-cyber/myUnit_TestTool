@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #define MY_API
-#include "../../DUT/L04_FB/UserAlarm/userAlarm.h"
+#include "userAlarm.h"
 
 static int failures;
 #define CHECK(x) do { if (!(x)) { fprintf(stderr, "FAIL line %d: %s\n", __LINE__, #x); failures++; } } while (0)
